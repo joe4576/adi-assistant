@@ -1,8 +1,16 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Tab3.css';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import "./Tab3.css";
+import api from "@/api";
 
-const Tab3: React.FC = () => {
+const Tab3 = () => {
+  const { data: users, isLoading } = api.userList.useQuery();
+
   return (
     <IonPage>
       <IonHeader>
@@ -16,7 +24,13 @@ const Tab3: React.FC = () => {
             <IonTitle size="large">Tab 3</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Tab 3 page" />
+        {users && (
+          <div>
+            {users.map((user) => (
+              <div key={user.id}>{user.name}</div>
+            ))}
+          </div>
+        )}
       </IonContent>
     </IonPage>
   );
