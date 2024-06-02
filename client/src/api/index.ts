@@ -10,8 +10,7 @@ export const queryClient = new QueryClient();
 export const trpcClient = api.createClient({
   links: [
     httpBatchLink({
-      url: "http://localhost:4000/trpc",
-      // You can pass any HTTP headers you wish here
+      url: `${import.meta.env.VITE_BASE_URL}/trpc`,
       async headers() {
         return {
           Authorization: "Bearer joe",

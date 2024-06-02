@@ -9,7 +9,7 @@ import "./Tab3.css";
 import api from "@/api";
 
 const Tab3 = () => {
-  const { data: users, isLoading } = api.userList.useQuery();
+  const { data: users, isLoading } = api.getAllEmployees.useQuery()
 
   return (
     <IonPage>
@@ -26,7 +26,7 @@ const Tab3 = () => {
         </IonHeader>
         {users && (
           <div>
-            {users.map((user) => (
+            {(users as any).map((user) => (
               <div key={user.id}>{user.name}</div>
             ))}
           </div>

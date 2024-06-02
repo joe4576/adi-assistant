@@ -1,16 +1,14 @@
 import { initTRPC } from "@trpc/server";
-import * as trpcExpress from "@trpc/server/adapters/express";
+import { CreateExpressContextOptions } from "@trpc/server/adapters/express";
+import { createClient } from "@supabase/supabase-js";
 
-export const createContext = ({
-  req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => {
-  const joe = "joe";
+export const createContext = (opts: CreateExpressContextOptions) => {
+  const db = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
+  console.log(process.env.SUPABASE_URL);
+  console.log(process.env.NODE_ENV);
 
   return {
-    req,
-    res,
-    joe,
+    db,
   };
 };
 
