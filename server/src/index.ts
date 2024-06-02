@@ -3,6 +3,9 @@ import { z } from "zod";
 import express from "express";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const userSchema = z.object({
   id: z.number(),
@@ -44,6 +47,8 @@ app.use(
   }),
 );
 
+const port = process.env.PORT || 4000;
+
 app.listen(4000, () => {
-  console.log("Server started on http://localhost:4000");
+  console.log(`Server started on http://localhost:${port}`);
 });
