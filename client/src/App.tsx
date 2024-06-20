@@ -43,13 +43,53 @@ import "@ionic/react/css/display.css";
 import "@ionic/react/css/palettes/dark.system.css";
 
 import "./theme/variables.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import trpc, { queryClient, trpcClient } from "@/api";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  const supabase = createClient(
+    "https://cumoefgttvciwvvevrgg.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1bW9lZmd0dHZjaXd2dmV2cmdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTczNTAwMTgsImV4cCI6MjAzMjkyNjAxOH0.oqwshM6t_Swb5b4P3E9_vkL8Rk3BMzK5y_ROE4j8Z-A",
+  );
+
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const logInWithGoogle = async () => {
+    const result = await supabase.auth.signInWithSSO({
+      providerId: "google",
+      domain: "http://localhost:5137",
+    });
+
+    console.log(result);
+  };
+
+  if (!session) {
+    return (
+      <div>
+        <p>No Session</p>
+        <button onClick={logInWithGoogle}>Log in with Google</button>
+      </div>
+    );
+  }
+
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>

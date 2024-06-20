@@ -9,7 +9,7 @@ import "./Tab3.css";
 import api from "@/api";
 
 const Tab3 = () => {
-  const { data: users, isLoading } = api.getAllEmployees.useQuery()
+  const { data: users, isLoading } = api.getAllEmployees.useQuery();
 
   return (
     <IonPage>
