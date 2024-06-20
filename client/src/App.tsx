@@ -10,10 +10,9 @@ import {
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { ellipse, square, triangle } from "ionicons/icons";
-import Tab1 from "@/pages/Tab1";
-import Tab2 from "@/pages/Tab2";
-import Tab3 from "@/pages/Tab3";
+
+// Initialise firebase
+import "@/plugins/initialiseFirebase";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -43,50 +42,43 @@ import "@ionic/react/css/display.css";
 import "@ionic/react/css/palettes/dark.system.css";
 
 import "./theme/variables.css";
-import React from "react";
-import { QueryClientProvider } from "@tanstack/react-query";
 import trpc, { queryClient, trpcClient } from "@/api";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { FirebaseUserContext } from "@/context/firebaseUserContext";
+import React from "react";
+import { useFirebaseAuthentication } from "@/hooks/useFirebaseAuthentication";
+import { Login } from "@/components/Login";
+import { Home } from "@/pages/Home";
+import { About } from "@/pages/About";
 
 setupIonicReact();
 
-const App: React.FC = () => {
+const App = () => {
+  const [user] = useFirebaseAuthentication();
+
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <IonApp>
-          <IonReactRouter>
-            <IonTabs>
+        <FirebaseUserContext.Provider value={user}>
+          <IonApp>
+            <IonReactRouter>
               <IonRouterOutlet>
-                <Route exact path="/tab1">
-                  <Tab1 />
-                </Route>
-                <Route exact path="/tab2">
-                  <Tab2 />
-                </Route>
-                <Route path="/tab3">
-                  <Tab3 />
-                </Route>
-                <Route exact path="/">
-                  <Redirect to="/tab1" />
-                </Route>
+                <Route exact path="/login" component={Login} />
+                <Route
+                  path="/"
+                  exact
+                  render={() => (user ? <Home /> : <Redirect to="/login" />)}
+                />
+                <Route
+                  path="/about"
+                  exact
+                  render={() => (user ? <About /> : <Redirect to="/login" />)}
+                />
+                <Route render={() => <Redirect to="/" />} />
               </IonRouterOutlet>
-              <IonTabBar slot="bottom">
-                <IonTabButton tab="tab1" href="/tab1">
-                  <IonIcon aria-hidden="true" icon={triangle} />
-                  <IonLabel>Tab 1</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="tab2" href="/tab2">
-                  <IonIcon aria-hidden="true" icon={ellipse} />
-                  <IonLabel>Tab 2</IonLabel>
-                </IonTabButton>
-                <IonTabButton tab="tab3" href="/tab3">
-                  <IonIcon aria-hidden="true" icon={square} />
-                  <IonLabel>Tab 3</IonLabel>
-                </IonTabButton>
-              </IonTabBar>
-            </IonTabs>
-          </IonReactRouter>
-        </IonApp>
+            </IonReactRouter>
+          </IonApp>
+        </FirebaseUserContext.Provider>
       </QueryClientProvider>
     </trpc.Provider>
   );
