@@ -1,5 +1,4 @@
 import {
-  IonButton,
   IonContent,
   IonHeader,
   IonPage,
@@ -8,6 +7,7 @@ import {
 } from "@ionic/react";
 
 export const Home = () => {
+  console.log("home render");
   return (
     <IonPage>
       <IonHeader>
@@ -16,7 +16,7 @@ export const Home = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonButton routerLink="/about">About</IonButton>
+        <h1>This is the home page</h1>
       </IonContent>
     </IonPage>
   );

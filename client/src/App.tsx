@@ -1,14 +1,5 @@
 import { Redirect, Route } from "react-router-dom";
-import {
-  IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  setupIonicReact,
-} from "@ionic/react";
+import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
 // Initialise firebase
@@ -45,16 +36,21 @@ import "./theme/variables.css";
 import trpc, { queryClient, trpcClient } from "@/api";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { FirebaseUserContext } from "@/context/firebaseUserContext";
-import React from "react";
 import { useFirebaseAuthentication } from "@/hooks/useFirebaseAuthentication";
 import { Login } from "@/components/Login";
-import { Home } from "@/pages/Home";
-import { About } from "@/pages/About";
+import { Tabs } from "@/components/Tabs";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 setupIonicReact();
 
 const App = () => {
-  const [user] = useFirebaseAuthentication();
+  const { user, isLoading } = useFirebaseAuthentication();
+
+  console.log("app render", !!user);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
@@ -62,20 +58,11 @@ const App = () => {
         <FirebaseUserContext.Provider value={user}>
           <IonApp>
             <IonReactRouter>
-              <IonRouterOutlet>
-                <Route exact path="/login" component={Login} />
-                <Route
-                  path="/"
-                  exact
-                  render={() => (user ? <Home /> : <Redirect to="/login" />)}
-                />
-                <Route
-                  path="/about"
-                  exact
-                  render={() => (user ? <About /> : <Redirect to="/login" />)}
-                />
-                <Route render={() => <Redirect to="/" />} />
-              </IonRouterOutlet>
+              <Route path="/login" component={Login} />
+              <Route
+                path="/"
+                render={() => (user ? <Tabs /> : <Redirect to="/login" />)}
+              />
             </IonReactRouter>
           </IonApp>
         </FirebaseUserContext.Provider>

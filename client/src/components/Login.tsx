@@ -19,12 +19,12 @@ import { useHistory } from "react-router";
 export const Login = () => {
   const user = useContext(FirebaseUserContext);
   const { replace } = useHistory();
-  //
-  useEffect(() => {
-    if (user) {
-      replace("/");
-    }
-  }, [user]);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     replace("/home");
+  //   }
+  // }, [user]);
 
   const login = async () => {
     const result = await signInWithEmailAndPassword(
@@ -34,7 +34,7 @@ export const Login = () => {
     );
     console.log("signed in", result);
 
-    replace("/");
+    replace("/home");
   };
 
   //

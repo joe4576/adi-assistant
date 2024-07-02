@@ -4,22 +4,23 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonListHeader,
   IonPage,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 import { getAuth, signOut } from "firebase/auth";
-import { useHistory } from "react-router";
-import { useContext } from "react";
-import { FirebaseUserContext } from "@/context/firebaseUserContext";
+import api from "@/api";
 
-export const About = () => {
-  const { replace } = useHistory();
-  const user = useContext(FirebaseUserContext);
+export const UsersList = () => {
   const logOut = async () => {
-    const result = await signOut(getAuth());
-    replace("/login");
+    await signOut(getAuth());
   };
+
+  const { data: users } = api.userList.useQuery();
 
   return (
     <IonPage>
@@ -28,12 +29,18 @@ export const About = () => {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle>About</IonTitle>
+          <IonTitle>Users</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <h1>About</h1>
-        <IonButton onClick={logOut}>Log out</IonButton>
+        <IonList>
+          <IonListHeader>Users</IonListHeader>
+          {users?.map((user) => (
+            <IonItem key={user.id} routerLink={`/users/${user.id}`}>
+              <IonLabel>{user.name}</IonLabel>
+            </IonItem>
+          ))}
+        </IonList>
       </IonContent>
     </IonPage>
   );
