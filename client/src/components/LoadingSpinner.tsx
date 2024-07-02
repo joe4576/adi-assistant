@@ -1,5 +1,9 @@
 import { IonSpinner } from "@ionic/react";
 
 export const LoadingSpinner = () => {
-  return <IonSpinner name="crescent" />;
+  return (
+    <div className="flex justify-center items-center">
+      <IonSpinner name="crescent" />
+    </div>
+  );
 };
