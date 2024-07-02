@@ -10,7 +10,8 @@
     "test.e2e": "cypress run",
     "test.unit": "vitest",
     "lint": "eslint",
-    "dev:ios": "ionic cap run ios -l --external"
+    "dev:ios": "ionic cap run ios -l --external",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@capacitor/app": "6.0.0",
