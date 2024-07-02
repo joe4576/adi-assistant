@@ -25,7 +25,7 @@ export const ViewUser = (props: ViewUserProps) => {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle>View User</IonTitle>
+          <IonTitle>{user ? user.name : "View User"}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
