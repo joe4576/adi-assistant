@@ -1,17 +1,19 @@
 import { z } from "zod";
-import { BaseService } from "@/services/base.service";
+import { BaseService } from "@server/services/base.service";
 
-export const userSchema = z.object({
+// id should be in the schema, but it is not a field that is stored
+// in Firestore. The id comes from the document reference.
+export const studentSchema = z.object({
   id: z.string(),
   name: z.string(),
 });
 
-const userArraySchema = z.array(userSchema);
+const userArraySchema = z.array(studentSchema);
 
-export type User = z.infer<typeof userSchema>;
+export type Student = z.infer<typeof studentSchema>;
 
 export class StudentService extends BaseService {
-  public async getAllStudents(instructorId: string): Promise<User[]> {
+  public async getAllStudents(instructorId: string): Promise<Student[]> {
     const instructorRef = this.db.collection("instructors").doc(instructorId);
 
     const studentsSnapshot = await this.db
@@ -33,7 +35,7 @@ export class StudentService extends BaseService {
   }: {
     studentId: string;
     instructorId: string;
-  }): Promise<User | undefined> {
+  }): Promise<Student | undefined> {
     const instructorRef = this.db.collection("instructors").doc(instructorId);
 
     const studentDoc = await this.db
@@ -51,11 +53,30 @@ export class StudentService extends BaseService {
       return undefined;
     }
 
-    const student = userSchema.parse({
+    const student = studentSchema.parse({
       id: studentDoc.id,
       ...studentData,
     });
 
     return student;
+  }
+
+  public async createStudent({
+    instructorId,
+    student,
+  }: {
+    instructorId: string;
+    student: Student;
+  }): Promise<string> {
+    const instructorRef = this.db.collection("instructors").doc(instructorId);
+
+    const { id, ...studentData } = student;
+
+    const studentRef = await this.db.collection("students").add({
+      ...studentData,
+      instructor: instructorRef,
+    });
+
+    return studentRef.id;
   }
 }

@@ -1,6 +1,9 @@
 import {
+  IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -9,10 +12,14 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import api from "@/api";
-import { WrapLoading } from "@/components/hocs/WrapLoading";
+import api from "@client/api";
+import { WrapLoading } from "@client/components/hocs/WrapLoading";
+import { addOutline } from "ionicons/icons";
+import { useAddStudentModal } from "@client/components/modals/useAddStudentModal";
 
 export const ListStudents = () => {
+  const { openModal } = useAddStudentModal();
+
   const {
     data: students,
     error,
@@ -28,6 +35,11 @@ export const ListStudents = () => {
       <IonHeader>
         <IonToolbar color="primary">
           <IonTitle>Users</IonTitle>
+          <IonButtons slot="end">
+            <IonButton id="edit-student" onClick={() => openModal()}>
+              <IonIcon slot={"icon-only"} icon={addOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>

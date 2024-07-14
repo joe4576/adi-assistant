@@ -3,7 +3,7 @@ import { IonApp, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
 // Initialise firebase
-import "@/plugins/initialiseFirebase";
+import "@client/plugins/initialiseFirebase";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -33,13 +33,13 @@ import "@ionic/react/css/display.css";
 import "@ionic/react/css/palettes/dark.system.css";
 
 import "./theme/variables.css";
-import trpc, { queryClient, trpcClient } from "@/api";
+import trpc, { queryClient, trpcClient } from "@client/api";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { FirebaseUserContext } from "@/context/firebaseUserContext";
-import { useFirebaseAuthentication } from "@/hooks/useFirebaseAuthentication";
-import { Login } from "@/components/Login";
-import { Tabs } from "@/components/Tabs";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { FirebaseUserContext } from "@client/context/firebaseUserContext";
+import { useFirebaseAuthentication } from "@client/hooks/useFirebaseAuthentication";
+import { Login } from "@client/components/Login";
+import { Tabs } from "@client/components/Tabs";
+import { LoadingSpinner } from "@client/components/LoadingSpinner";
 
 setupIonicReact();
 

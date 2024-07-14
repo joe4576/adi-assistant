@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { LoadingSpinner } from "@client/components/LoadingSpinner";
 
 export const WrapLoading = ({
   isLoading,

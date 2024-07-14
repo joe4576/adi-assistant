@@ -1,5 +1,8 @@
-import { instructorProcedure, protectedProcedure, router } from "@/trpc";
-import { StudentService, userSchema } from "@/services/student.service";
+import { instructorProcedure, protectedProcedure, router } from "@server/trpc";
+import {
+  StudentService,
+  studentSchema,
+} from "@server/services/student.service";
 import { z } from "zod";
 
 export const studentRouter = router({
@@ -18,10 +21,16 @@ export const studentRouter = router({
         instructorId: ctx.instructorId,
       });
     }),
-  createUser: protectedProcedure
-    .input(userSchema)
-    .mutation(async ({ input }) => {
-      // users.push(input);
-      return input;
+  createStudent: instructorProcedure
+    .input(studentSchema)
+    .mutation(async ({ input, ctx }) => {
+      const studentService = new StudentService(ctx);
+
+      const studentId = await studentService.createStudent({
+        student: input,
+        instructorId: ctx.instructorId,
+      });
+
+      return studentId;
     }),
 });

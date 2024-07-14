@@ -1,6 +1,6 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useContext } from "react";
-import { FirebaseUserContext } from "@/context/firebaseUserContext";
+import { FirebaseUserContext } from "@client/context/firebaseUserContext";
 import {
   IonButton,
   IonContent,

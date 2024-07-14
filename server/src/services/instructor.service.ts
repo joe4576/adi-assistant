@@ -1,4 +1,4 @@
-import { BaseService } from "@/services/base.service";
+import { BaseService } from "@server/services/base.service";
 import { z } from "zod";
 
 export const instructorSchema = z.object({

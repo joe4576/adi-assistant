@@ -8,11 +8,11 @@ import {
 } from "@ionic/react";
 import { Redirect, Route } from "react-router-dom";
 import { triangle, square, cogOutline } from "ionicons/icons";
-import { Home } from "@/pages/Home";
-import { ListStudents } from "@/pages/ListStudents";
+import { Home } from "@client/pages/Home";
+import { ListStudents } from "@client/pages/ListStudents";
 import React from "react";
-import { ViewStudent } from "@/pages/ViewStudent";
-import { Settings } from "@/pages/Settings";
+import { ViewStudent } from "@client/pages/ViewStudent";
+import { Settings } from "@client/pages/Settings";
 
 export const Tabs = () => {
   return (

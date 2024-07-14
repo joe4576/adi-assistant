@@ -3,10 +3,7 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 import { Firestore } from "firebase-admin/firestore";
-import {
-  instructorSchema,
-  InstructorService,
-} from "@/services/instructor.service";
+import { InstructorService } from "@server/services/instructor.service";
 
 export const createContext = async ({
   req,

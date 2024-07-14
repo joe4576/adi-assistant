@@ -1,10 +1,10 @@
-import { createContext, router } from "./trpc";
+import { createContext, router } from "@server/trpc";
 import express from "express";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
 import dotenv from "dotenv";
-import "@/initaliseFirebase";
-import { studentRouter } from "@/routers/student.router";
+import "@server/initaliseFirebase";
+import { studentRouter } from "@server/routers/student.router";
 
 dotenv.config();
 
