@@ -4,35 +4,27 @@ import express from "express";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
 import dotenv from "dotenv";
-import "./initaliseFirebase";
+import "@/initaliseFirebase";
+import { userSchema, UserService } from "@/services/user.service";
 
 dotenv.config();
 
-const userSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-});
-
-export type User = z.infer<typeof userSchema>;
-
-const users: User[] = [
-  { id: 1, name: "Alice" },
-  { id: 2, name: "Bob" },
-  { id: 3, name: "Charlie" },
-];
-
 const appRouter = router({
   userList: protectedProcedure.query(async ({ ctx }) => {
-    console.log(ctx.uid);
-    return users;
+    const userService = new UserService(ctx);
+
+    return await userService.getAllUsers();
   }),
-  userById: protectedProcedure.input(z.number()).query(async ({ input }) => {
-    return users.find((user) => user.id === input);
-  }),
+  userById: protectedProcedure
+    .input(z.string())
+    .query(async ({ input, ctx }) => {
+      const userService = new UserService(ctx);
+      return await userService.getUserById(input);
+    }),
   createUser: protectedProcedure
     .input(userSchema)
     .mutation(async ({ input }) => {
-      users.push(input);
+      // users.push(input);
       return input;
     }),
 });

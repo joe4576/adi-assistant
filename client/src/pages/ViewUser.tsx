@@ -22,7 +22,7 @@ interface ViewUserProps extends RouteComponentProps<{ id: string }> {}
 
 export const ViewUser = (props: ViewUserProps) => {
   const { data: user, isLoading } = api.userById.useQuery(
-    parseInt(props.match.params.id),
+    props.match.params.id,
   );
 
   const modal = useRef<HTMLIonModalElement>(null);
