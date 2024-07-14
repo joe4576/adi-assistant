@@ -9,14 +9,9 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { getAuth, signOut } from "firebase/auth";
 import api from "@/api";
 
 export const UsersList = () => {
-  const logOut = async () => {
-    await signOut(getAuth());
-  };
-
   const { data: users } = api.userList.useQuery();
 
   return (
