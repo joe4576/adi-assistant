@@ -12,7 +12,11 @@ import {
 import api from "@/api";
 
 export const UsersList = () => {
-  const { data: users } = api.userList.useQuery();
+  const { data: users, error } = api.userList.useQuery();
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <IonPage>

@@ -1,9 +1,10 @@
-import { createContext, publicProcedure, router } from "./trpc";
+import { createContext, protectedProcedure, router } from "./trpc";
 import { z } from "zod";
 import express from "express";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import cors from "cors";
 import dotenv from "dotenv";
+import "./initaliseFirebase";
 
 dotenv.config();
 
@@ -21,16 +22,19 @@ const users: User[] = [
 ];
 
 const appRouter = router({
-  userList: publicProcedure.query(async () => {
+  userList: protectedProcedure.query(async ({ ctx }) => {
+    console.log(ctx.uid);
     return users;
   }),
-  userById: publicProcedure.input(z.number()).query(async ({ input }) => {
+  userById: protectedProcedure.input(z.number()).query(async ({ input }) => {
     return users.find((user) => user.id === input);
   }),
-  createUser: publicProcedure.input(userSchema).mutation(async ({ input }) => {
-    users.push(input);
-    return input;
-  }),
+  createUser: protectedProcedure
+    .input(userSchema)
+    .mutation(async ({ input }) => {
+      users.push(input);
+      return input;
+    }),
 });
 
 export type AppRouter = typeof appRouter;
