@@ -1,7 +1,4 @@
 import {
-  IonBackButton,
-  IonButton,
-  IonButtons,
   IonContent,
   IonHeader,
   IonItem,
@@ -26,9 +23,6 @@ export const UsersList = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonButtons slot="start">
-            <IonBackButton />
-          </IonButtons>
           <IonTitle>Users</IonTitle>
         </IonToolbar>
       </IonHeader>

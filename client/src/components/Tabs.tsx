@@ -34,7 +34,7 @@ export const Tabs = () => {
         </IonTabButton>
         <IonTabButton tab="users" href="/users">
           <IonIcon icon={square}></IonIcon>
-          <IonLabel>About</IonLabel>
+          <IonLabel>Users</IonLabel>
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

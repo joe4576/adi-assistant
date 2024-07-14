@@ -46,8 +46,6 @@ setupIonicReact();
 const App = () => {
   const { user, isLoading } = useFirebaseAuthentication();
 
-  console.log("app render", !!user);
-
   if (isLoading) {
     return <LoadingSpinner />;
   }

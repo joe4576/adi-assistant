@@ -1,10 +1,5 @@
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import React, { useContext, useEffect } from "react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import React, { useContext } from "react";
 import { FirebaseUserContext } from "@/context/firebaseUserContext";
 import {
   IonButton,
@@ -30,7 +25,7 @@ export const Login = () => {
     const result = await signInWithEmailAndPassword(
       getAuth(),
       "joe@test.com",
-      "password"
+      "password",
     );
     console.log("signed in", result);
 
