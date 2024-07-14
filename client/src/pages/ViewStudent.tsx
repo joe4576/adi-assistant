@@ -20,8 +20,8 @@ import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-com
 
 interface ViewUserProps extends RouteComponentProps<{ id: string }> {}
 
-export const ViewUser = (props: ViewUserProps) => {
-  const { data: user, isLoading } = api.userById.useQuery(
+export const ViewStudent = (props: ViewUserProps) => {
+  const { data: student, isLoading } = api.student.getStudentById.useQuery(
     props.match.params.id,
   );
 
@@ -45,10 +45,10 @@ export const ViewUser = (props: ViewUserProps) => {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle>{user ? user.name : "View User"}</IonTitle>
-          {user && (
+          <IonTitle>{student ? student.name : "View User"}</IonTitle>
+          {student && (
             <IonButtons slot="end">
-              <IonButton id="edit-user">
+              <IonButton id="edit-student">
                 <IonIcon
                   slot={"icon-only"}
                   src={"/src/assets/custom-pencil.svg"}
@@ -60,10 +60,10 @@ export const ViewUser = (props: ViewUserProps) => {
       </IonHeader>
       <IonContent className={"ion-padding"}>
         <WrapLoading isLoading={isLoading}>
-          <pre>{JSON.stringify(user)}</pre>
+          <pre>{JSON.stringify(student)}</pre>
           <IonModal
             ref={modal}
-            trigger="edit-user"
+            trigger="edit-student"
             onWillDismiss={(ev) => onWillDismiss(ev)}
           >
             <IonHeader>

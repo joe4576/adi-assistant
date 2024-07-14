@@ -3,6 +3,10 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 import { Firestore } from "firebase-admin/firestore";
+import {
+  instructorSchema,
+  InstructorService,
+} from "@/services/instructor.service";
 
 export const createContext = async ({
   req,
@@ -12,6 +16,7 @@ export const createContext = async ({
 
   let uid: string | null = null;
   let db: Firestore | null = null;
+  const instructorId: string | null = null;
 
   try {
     const decodedIdToken = await getAuth().verifyIdToken(bearerToken);
@@ -26,6 +31,7 @@ export const createContext = async ({
     res,
     uid,
     db,
+    instructorId,
   };
 };
 
@@ -56,3 +62,25 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
     },
   });
 });
+
+export const instructorProcedure = protectedProcedure.use(
+  async ({ ctx, next }) => {
+    const instructorService = new InstructorService(ctx);
+
+    const instructor = await instructorService.getInstructorById(ctx.uid);
+
+    if (!instructor) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "You are not logged in as an instructor",
+      });
+    }
+
+    return next({
+      ctx: {
+        ...ctx,
+        instructorId: instructor.id,
+      },
+    });
+  },
+);

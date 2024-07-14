@@ -9,9 +9,9 @@ import {
 import { Redirect, Route } from "react-router-dom";
 import { triangle, square, cogOutline } from "ionicons/icons";
 import { Home } from "@/pages/Home";
-import { UsersList } from "@/pages/UsersList";
+import { ListStudents } from "@/pages/ListStudents";
 import React from "react";
-import { ViewUser } from "@/pages/ViewUser";
+import { ViewStudent } from "@/pages/ViewStudent";
 import { Settings } from "@/pages/Settings";
 
 export const Tabs = () => {
@@ -22,10 +22,10 @@ export const Tabs = () => {
           <Redirect to="/home" />
         </Route>
         <Route path="/home" exact component={Home}></Route>
-        <Route path="/users" exact component={UsersList}></Route>
+        <Route path="/students" exact component={ListStudents}></Route>
         <Route
-          path="/users/:id"
-          render={(props) => <ViewUser {...props} />}
+          path="/students/:id"
+          render={(props) => <ViewStudent {...props} />}
         ></Route>
         <Route path="/settings" exact component={Settings}></Route>
       </IonRouterOutlet>
@@ -34,9 +34,9 @@ export const Tabs = () => {
           <IonIcon icon={triangle}></IonIcon>
           <IonLabel>Home</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="users" href="/users">
+        <IonTabButton tab="students" href="/students">
           <IonIcon icon={square}></IonIcon>
-          <IonLabel>Users</IonLabel>
+          <IonLabel>Students</IonLabel>
         </IonTabButton>
         <IonTabButton tab="settings" href="/settings">
           <IonIcon icon={cogOutline}></IonIcon>
